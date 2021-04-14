@@ -1,14 +1,23 @@
-bin/kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 3 --partitions 3 --topic mytopic
-bin/kafka-topics.sh --describe --topic mytopic --zookeeper zookeeper:2181
+###Create topic 
+kafka-topics --create --zookeeper zookeeper:2181 --replication-factor 3 --partitions 3 --topic mytopic
 
+###Describe topic
+kafka-topics --describe --topic mytopic --zookeeper zookeeper:2181
+
+###Look message stream
 bin/kafka-console-consumer.sh --bootstrap-server kafka1:9092 --topic mytopic
+
+###Change number of partitions in topic
+####You can only scale up number of partitions, scaling down by delete a topic and create with custom partition count 
+kafka-topics --zookeeper localhost:2181 --topic mytopic --partitions X
+
+---------------
 bin/kafka-console-producer.sh --broker-list kafka1:9092 --topic mytopic
 
-
-#!/bin/bash
+###!/bin/bash
 while [ 1 = 1 ]
 do
-echo $RANDOM |  bin/kafka-console-producer.sh --broker-list kafka1:9092 --topic mytopic
+echo $RANDOM |  kafka-console-producer --broker-list kafka1:9092 --topic mytopic
 done
 
 
